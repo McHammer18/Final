@@ -5,6 +5,20 @@ Card class for creating and schuffling cards
 
 12/04/20
 """
+import random
+import os
+
+cards_location = './card_images/cards/'
+hidden_card_location = './card_images/hidden.jpg'
+
+
+def collect_cards():
+    cards = os.listdir(cards_location)
+
+    cards = [card.split('.')[0] for card in cards]
+
+    return cards
+
 
 class Card():
     def __init__(self, name, suit, value=11, is_displayed = True):
@@ -50,3 +64,13 @@ class Card():
             self._suit = "Diamonds"
         else:
             self._suit = "Spades"
+
+    @staticmethod
+    #method to shuffle deck
+    def shuffle_deck(deck):
+        cards = deck
+
+        random.shuffle(cards)
+
+        dealed_card = cards[0]
+        return dealed_card
