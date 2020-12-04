@@ -24,3 +24,6 @@ class Game:
 
     def game(self):
         pass
+
+    def shuffle_deck(self):
+        random.shuffle()
