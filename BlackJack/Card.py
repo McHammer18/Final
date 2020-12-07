@@ -5,6 +5,7 @@ Card class for creating and schuffling cards
 
 12/04/20
 """
+from PIL import ImageTk, Image
 import random
 import os
 
@@ -21,13 +22,13 @@ def collect_cards():
 
 
 class Card():
-    def __init__(self, name, suit, value=11, is_displayed = True):
-        self.name = name #face cards
-        self.suit = suit #suit of card
-        self._is_displayed = is_displayed #whether the card is face up or down
-        self._value = value #value of the card
+    def __init__(self, name, suit, value=11, is_displayed=True):
+        self.name = name # face cards
+        self.suit = suit # suit of card
+        self._is_displayed = is_displayed # whether the card is face up or down
+        self._value = value # value of the card
 
-    #getteers and setters
+    # getteers and setters
     @property
     def is_displayed(self):
         return self._is_displayed
@@ -41,7 +42,7 @@ class Card():
         if str(self.name)[0] in ['J', 'Q', 'K']:
             self._value = 10 # sees if card has a face card name to set value to 10
         elif str(self.name)[0] == 'A':
-            self._value = 11 #sees aces as a value of 11
+            self._value = 11 # sees aces as a value of 11
         else:
             self._value = int(self.name.split('-')[0])
         return self._value
@@ -74,3 +75,7 @@ class Card():
 
         dealed_card = cards[0]
         return dealed_card
+
+    @classmethod
+    def hidden_card(cls):
+        pass

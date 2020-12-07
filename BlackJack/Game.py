@@ -6,7 +6,6 @@ the player and allow them to place bets
 
 11/28/20
 """
-import random
 MAX = 21
 
 class Game:
