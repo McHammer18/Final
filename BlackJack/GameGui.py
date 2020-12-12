@@ -30,19 +30,21 @@ l.grid()
 # Sets the image of the first card face down
 p_card1 = Card.hidden_card()
 p_card1_label = Label(pcf, image=p_card1, bg=background_color, name='dealcard1_player')
-p_card1.grid(row=0, column=0)
+p_card1.pack(side=RIGHT)
 p_card2 = Card.hidden_card()
 p_card2_label = Label(pcf, image = p_card2, bg = background_color,name = 'dealcard2_player')
-p_card2_label.grid(row=0, column=1)
+p_card2_label.pack(side=RIGHT)
 
 # buttons
 pbf = Frame(pf, bg=background_color)
 pbf.grid(row=1, column=0)
 hit = Button(pbf, text="Hit", **button_args, state=DISABLED, name='hit')
 stand = Button(pbf, text="Stand", **button_args, state=DISABLED, name='stand')
+deal = Button(pbf, text = 'DEAL', **button_args, bg = "green")
 
-hit.grid(row=0, column=0)
-stand.grid(row=0, column=1)
+deal.grid(row=0, column=0)
+hit.grid(row=0, column=1)
+stand.grid(row=0, column=2)
 
 # Dealers frame that hold the card frame
 df = Frame(game, bg=background_color, ** hightlight_frame_with_white)
@@ -55,11 +57,11 @@ dcf.grid(row=0, column=0)
 
 d_card1 = Card.hidden_card()
 d_card1_label = Label(dcf, image = d_card1, bg = background_color,name = 'dealcard1_dealer')
-d_card1.grid(row=0, column=0)
+d_card1.pack(side=LEFT)
 
 d_card2 = Card.hidden_card()
 d_card2_label = Label(dcf, image = d_card2, bg = background_color,name = 'dealcard2_dealer')
-d_card2_label.grid(row=0, column=1)
+d_card2_label.pack(side=LEFT)
 # Score/status frame
 sf = Frame(game, bg=background_color, **hightlight_frame_with_white)
 sf.grid(row=1, column=0, columnspan=2)
@@ -94,15 +96,16 @@ def deal_init():
     #Initialize Card Instances so this way i will have a new deck each time deal is pressed
     cards_instances = []
     for card in collect_cards():
-        cards_instances.append(Card(name = card)) # (Card instance)
+        cards_instances.append(Card(name=card)) # (Card instance)
         print(f'{card} added to deck')
     ########
 
 
     #Initialize Game:
-    game  = Game(
+    game = Game(
         deck = cards_instances,
         master = game,
+        player_button_frame = pbf,
         player_cards_frame = pcf,
         player_card1_label = p_card1_label,
         player_card2_label = p_card2_label,
@@ -129,4 +132,11 @@ def deal_init():
 
     #fill the score board:
     game.set_scoreboard()
+
+    # Set the Buttons click function <Button-1> Stand for left click
+    hit.bind('<Button-1>', lambda event: game.hit(dealer_2))
+    stand.bind('<Button-1>', lambda event: game.finish_player_turn(dealer_2))
+
+
+deal.bind('<Button-1>', lambda event: deal_init())
 game.mainloop()

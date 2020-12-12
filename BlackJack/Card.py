@@ -5,6 +5,8 @@ Card class for creating and schuffling cards
 
 12/04/20
 """
+import ctypes
+
 from PIL import ImageTk, Image
 import random
 import os
@@ -76,6 +78,31 @@ class Card():
         dealed_card = cards[0]
         return dealed_card
 
-    @classmethod
-    def hidden_card(cls):
-        pass
+    @staticmethod
+    def get_card_image(card):
+        try:
+            card_file_location = f"{cards_location}/{getattr(card,'name')}.png"
+            card_image = Image.open(card_file_location)
+            card_image_shaped = card_image.resize((159,225), Image.ANTIALIAS) # this will reshape the card because its actual size its huge!
+            card_image = ImageTk.PhotoImage(card_image_shaped)
+
+            return card_image
+
+        except:
+            ctypes.windll.user32.MessageBoxW(0,
+                                             "Could not find cards. Missing card_images folder with all the card images",
+                                             "Cards Images are missing!", 1)
+
+    @staticmethod
+    def hidden_card():
+        try:
+            card_image = Image.open(hidden_card_location)
+            card_image_shaped = card_image.resize((159,225), Image.ANTIALIAS) # this will reshape the card because its actual size its huge!
+            card_image = ImageTk.PhotoImage(card_image_shaped)
+
+            return card_image
+
+        except:
+            ctypes.windll.user32.MessageBoxW(0,
+                                             "Could not find cards. Missing card_images folder with all the card images",
+                                             "Cards Images are missing!", 1)
